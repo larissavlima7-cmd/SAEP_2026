@@ -14,7 +14,7 @@ Desenvolver um sistema web ou desktop que permita ao usuário do almoxarifado ca
 
 Este Documento especifíca os requistos de software para o Sistema de Gestão de Almoxafifado (SGA). Será Desenvolvido uma aplicação web (BackEnd em Java SpringBoot e FrontEnd em Angular) que permita a autenticação do usuário, o gerenciamento (CRUD) de produtos e o registro de movimentações (entrada e saída) desses produtos, com alertas de estoque mínimo.
 
-### 2. Requistos de InfraEstrutura e Ambiente [Entrega 9]
+### 2. Requistos de InfraEstrutura e Ambiente 
 
 |Categoria |Especificações | Versão |
 |-|-|-|
@@ -41,7 +41,7 @@ Este Documento especifíca os requistos de software para o Sistema de Gestão de
 - RF-12 : Inserir data de movimentação
 - RF-13: Validação da Movimentação (Não permitir estoque negativo)
 
-### 4. Modelo Lógico de Dados [Entrega 02]
+### 4. Modelo Lógico de Dados
 
 #### 5. Diagrama de Entidade Relacionais (DER)
 
@@ -78,4 +78,4 @@ Este Documento especifíca os requistos de software para o Sistema de Gestão de
 
 ``` 
 
-### 5. Verificação e Teste de Sotware [Entrega 08]
+### 5. Verificação e Teste de Sotware 
