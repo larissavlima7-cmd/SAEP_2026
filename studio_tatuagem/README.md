@@ -77,5 +77,5 @@ Este documento especifica os requisitos de software para o sistema de agendament
 ## 10. Requisitos de Infraestrutura
 - **Frontend:** Angular CLI (v16 ou superior), Node.js (v18+).
 - **Backend:** Java 17 (ou superior), framework Spring Boot, Spring Web, Spring Data JPA, Maven ou Gradle.
-- **Banco de Dados:** MySQL (v8.0+) (SGBD).
+- **Banco de Dados:** Postgres.
 - **Sistema Operacional:** Windows 10/11, macOS ou Linux.
