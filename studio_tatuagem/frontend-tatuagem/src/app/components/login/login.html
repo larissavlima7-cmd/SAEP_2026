@@ -1,0 +1,55 @@
+<div class="login-wrapper">
+  <!-- Luzes de fundo para efeito de estúdio -->
+  <div class="glow-bg red-glow"></div>
+  <div class="glow-bg violet-glow"></div>
+
+  <div class="login-card">
+    <!-- Header com Emblema/Logo -->
+    <div class="brand-header">
+      <h1>ESTÚDIO DE TATUAGEM</h1>
+      <p>Tenha beleza e qualidade em um só lugar!</p>
+    </div>
+
+    <!-- Formulário -->
+    <form (ngSubmit)="fazerLogin()" class="login-form">
+      <div class="input-group">
+        <label for="email">E-mail do Operador</label>
+        <div class="input-field">
+          <input 
+            id="email" 
+            type="email" 
+            [(ngModel)]="usuario.email" 
+            name="email" 
+            placeholder="artista@estudio.com" 
+            autocomplete="off"
+            required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="senha">Chave de Acesso</label>
+        <div class="input-field">
+          <input 
+            id="senha" 
+            type="password" 
+            [(ngModel)]="usuario.senha" 
+            name="senha" 
+            placeholder="••••••••••••" 
+            required>
+        </div>
+      </div>
+
+      <div *ngIf="mensagemErro" class="error-banner">
+        <span>⚠️</span> {{ mensagemErro }}
+      </div>
+
+      <button type="submit" class="btn-primary">
+        <span>ENTRAR NO PAINEL</span>
+      </button>
+    </form>
+
+    <div class="card-footer">
+      <span>Acesso restrito a profissionais autorizados</span>
+    </div>
+  </div>
+</div>
