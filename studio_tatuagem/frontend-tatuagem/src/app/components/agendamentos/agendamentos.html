@@ -1,1 +1,87 @@
-<p>agendamentos works!</p>
+<div class="dashboard-container">
+  <header class="dash-header">
+    <div class="header-titles">
+      <h2>Painel de Agendamentos</h2>
+      <p>Gerencie horários, tatuadores e piercers</p>
+    </div>
+    <nav class="nav-links">
+      <a routerLink="/agendamentos" class="active">Agendamentos</a>
+      <a routerLink="/clientes">Clientes</a>
+    </nav>
+  </header>
+
+  <div class="content-grid">
+    <!-- Formulário -->
+    <div class="card form-card">
+      <h3>Novo Agendamento</h3>
+      
+      <div *ngIf="mensagemSucesso" class="alert success-alert">
+        {{ mensagemSucesso }}
+      </div>
+      <div *ngIf="mensagemErro" class="alert error-alert">
+        ⚠️ {{ mensagemErro }}
+      </div>
+
+      <form (ngSubmit)="salvarAgendamento()">
+        <div class="input-group">
+          <label>Cliente</label>
+          <select [(ngModel)]="agendamentoAtual.cliente.id" name="clienteId" required>
+            <option [ngValue]="null">Selecione o Cliente</option>
+            <option *ngFor="let c of clientes" [value]="c.id">{{ c.nome }} ({{ c.documento }})</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Profissional / Recurso</label>
+          <select [(ngModel)]="agendamentoAtual.recurso.id" name="recursoId" required>
+            <option [ngValue]="null">Selecione o Profissional</option>
+            <option *ngFor="let r of recursos" [value]="r.id">{{ r.nome }} - {{ r.tipo }}</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Data</label>
+          <input type="date" [(ngModel)]="agendamentoAtual.data" name="data" required>
+        </div>
+
+        <div class="input-group">
+          <label>Horário</label>
+          <input type="time" [(ngModel)]="agendamentoAtual.hora" name="hora" required>
+        </div>
+
+        <div class="input-group">
+          <label>Observação / Serviço</label>
+          <input type="text" [(ngModel)]="agendamentoAtual.observacao" name="observacao" placeholder="Ex: Tatuagem Realismo Braço">
+        </div>
+
+        <button type="submit" class="btn-primary">Confirmar Horário</button>
+      </form>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card list-card">
+      <h3>Agendamentos Confirmados</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data / Hora</th>
+            <th>Cliente</th>
+            <th>Recurso</th>
+            <th>Serviço</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of agendamentos">
+            <td><strong>{{ a.data | date:'dd/MM/yyyy' }}</strong> às {{ a.hora }}</td>
+            <td>{{ a.cliente?.nome }}</td>
+            <td><span class="badge">{{ a.recurso?.nome }}</span></td>
+            <td>{{ a.observacao }}</td>
+          </tr>
+          <tr *ngIf="agendamentos.length === 0">
+            <td colspan="4" style="text-align: center;">Nenhum agendamento cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
