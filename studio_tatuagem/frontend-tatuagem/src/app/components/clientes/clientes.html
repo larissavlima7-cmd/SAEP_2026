@@ -1,1 +1,60 @@
-<p>clientes works!</p>
+<div class="dashboard-container">
+  <header class="dash-header">
+    <h2>Gestão de Clientes</h2>
+  </header>
+
+  <div class="content-grid">
+    <!-- Formulário de Cadastro -->
+    <div class="card form-card">
+      <h3>{{ clienteAtual.id ? 'Editar Cliente' : 'Novo Cliente' }}</h3>
+      <form (ngSubmit)="salvarCliente()">
+        <div class="input-group">
+          <label>Nome Completo</label>
+          <input type="text" [(ngModel)]="clienteAtual.nome" name="nome" required>
+        </div>
+        <div class="input-group">
+          <label>Documento (CPF/RG)</label>
+          <input type="text" [(ngModel)]="clienteAtual.documento" name="documento" required>
+        </div>
+        <div class="input-group">
+          <label>Telefone</label>
+          <input type="text" [(ngModel)]="clienteAtual.telefone" name="telefone" required>
+        </div>
+        <button type="submit" class="btn-primary">Salvar Cliente</button>
+        <button type="button" *ngIf="clienteAtual.id" (click)="clienteAtual = {}" class="btn-secondary">Cancelar</button>
+      </form>
+    </div>
+
+    <!-- Lista e Busca -->
+    <div class="card list-card">
+      <div class="search-bar">
+        <input type="text" [(ngModel)]="termoBusca" placeholder="Buscar por nome ou documento..." (keyup)="carregarClientes()">
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Documento</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.documento }}</td>
+            <td>{{ cliente.telefone }}</td>
+            <td class="actions">
+              <button (click)="editarCliente(cliente)" class="btn-icon edit">Editar</button>
+              <button (click)="excluirCliente(cliente.id)" class="btn-icon delete">Excluir</button>
+            </td>
+          </tr>
+          <tr *ngIf="clientes.length === 0">
+            <td colspan="4" style="text-align: center;">Nenhum cliente encontrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
