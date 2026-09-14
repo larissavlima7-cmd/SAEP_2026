@@ -1,11 +1,10 @@
-package com.estudio.agendamento.controller;
-
-import com.estudio.agendamento.model.Agendamento;
-import com.estudio.agendamento.repository.AgendamentoRepository;
+package com.estudio.agendamento.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.estudio.agendamento.Model.Agendamento;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class AgendamentoController {
 
     @Autowired
-    private AgendamentoRepository agendamentoRepository;
+    private Agendamento agendamentoRepository;
 
     @GetMapping
     public List<Agendamento> listar() {

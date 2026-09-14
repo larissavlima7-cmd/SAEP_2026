@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AgendamentoService } from '../../services/agendamento';
 import { ClienteService } from '../../services/cliente';
 import { RecursoService } from '../../services/recurso';
@@ -20,7 +20,8 @@ export class AgendamentosComponent implements OnInit {
 
   agendamentoAtual: any = {
     cliente: { id: null },
-    recurso: { id: null },
+    recursoId: null,
+    macaId: null,
     data: '',
     hora: '',
     observacao: ''
@@ -32,7 +33,8 @@ export class AgendamentosComponent implements OnInit {
   constructor(
     private agendamentoService: AgendamentoService,
     private clienteService: ClienteService,
-    private recursoService: RecursoService
+    private recursoService: RecursoService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -43,45 +45,114 @@ export class AgendamentosComponent implements OnInit {
 
   carregarAgendamentos() {
     this.agendamentoService.listar().subscribe({
-      next: (dados) => this.agendamentos = dados
+      next: (dados) => (this.agendamentos = dados)
     });
   }
 
   carregarClientes() {
     this.clienteService.listar().subscribe({
-      next: (dados) => this.clientes = dados
+      next: (dados) => (this.clientes = dados)
     });
   }
 
   carregarRecursos() {
     this.recursoService.listar().subscribe({
-      next: (dados) => this.recursos = dados
+      next: (dados) => (this.recursos = dados)
     });
+  }
+
+  get profissionais() {
+    return this.recursos.filter(
+      (r) => r.tipo !== 'Maca' && r.tipo !== 'Equipamento'
+    );
+  }
+
+  get macas() {
+    return this.recursos.filter(
+      (r) => r.tipo === 'Maca' || r.tipo === 'Equipamento'
+    );
   }
 
   salvarAgendamento() {
     this.mensagemErro = '';
     this.mensagemSucesso = '';
 
-    this.agendamentoService.salvar(this.agendamentoAtual).subscribe({
+    if (
+      !this.agendamentoAtual.cliente?.id ||
+      !this.agendamentoAtual.recursoId ||
+      !this.agendamentoAtual.data ||
+      !this.agendamentoAtual.hora
+    ) {
+      this.mensagemErro = 'Preencha o cliente, profissional, data e horário!';
+      return;
+    }
+
+    const agendamentoProfissional = {
+      cliente: { id: this.agendamentoAtual.cliente.id },
+      recurso: { id: this.agendamentoAtual.recursoId },
+      data: this.agendamentoAtual.data,
+      hora: this.agendamentoAtual.hora,
+      observacao: this.agendamentoAtual.observacao
+    };
+
+    this.agendamentoService.salvar(agendamentoProfissional).subscribe({
       next: () => {
-        this.mensagemSucesso = 'Agendamento realizado com sucesso!';
-        this.carregarAgendamentos();
-        this.agendamentoAtual = {
-          cliente: { id: null },
-          recurso: { id: null },
-          data: '',
-          hora: '',
-          observacao: ''
-        };
+        if (this.agendamentoAtual.macaId) {
+          const agendamentoMaca = {
+            cliente: { id: this.agendamentoAtual.cliente.id },
+            recurso: { id: this.agendamentoAtual.macaId },
+            data: this.agendamentoAtual.data,
+            hora: this.agendamentoAtual.hora,
+            observacao: `[Maca] ${this.agendamentoAtual.observacao || 'Reserva de espaço'}`
+          };
+
+          this.agendamentoService.salvar(agendamentoMaca).subscribe({
+            next: () =>
+              this.finalizarSucesso(
+                'Agendamento do profissional e da maca realizados com sucesso!'
+              ),
+            error: (err) => {
+              if (err.status === 409) {
+                this.mensagemErro =
+                  'Profissional agendado, mas a Maca selecionada já está ocupada neste horário!';
+              } else {
+                this.mensagemErro = 'Erro ao reservar a maca.';
+              }
+              this.carregarAgendamentos();
+            }
+          });
+        } else {
+          this.finalizarSucesso('Agendamento realizado com sucesso!');
+        }
       },
       error: (err) => {
         if (err.status === 409) {
-          this.mensagemErro = err.error || 'Este recurso/profissional já possui agendamento neste horário!';
+          this.mensagemErro =
+            typeof err.error === 'string'
+              ? err.error
+              : 'Este profissional já possui agendamento neste horário!';
         } else {
-          this.mensagemErro = 'Erro ao salvar o agendamento.';
+          this.mensagemErro = 'Erro ao processar o agendamento.';
         }
       }
     });
+  }
+
+  private finalizarSucesso(msg: string) {
+    this.mensagemSucesso = msg;
+    this.carregarAgendamentos();
+    this.agendamentoAtual = {
+      cliente: { id: null },
+      recursoId: null,
+      macaId: null,
+      data: '',
+      hora: '',
+      observacao: ''
+    };
+  }
+
+  logout() {
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
   }
 }

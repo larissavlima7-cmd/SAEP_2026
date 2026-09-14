@@ -2,19 +2,19 @@
   <header class="dash-header">
     <div class="header-titles">
       <h2>Painel de Agendamentos</h2>
-      <p>Gerencie horários, tatuadores e piercers</p>
+      <p>Gerencie horários, tatuadores, piercers e macas</p>
     </div>
     <nav class="nav-links">
-      <a routerLink="/agendamentos" class="active">Agendamentos</a>
-      <a routerLink="/clientes">Clientes</a>
+      <a routerLink="/agendamentos" routerLinkActive="active">Agendamentos</a>
+      <a routerLink="/clientes" routerLinkActive="active">Clientes</a>
+      <button (click)="logout()" class="btn-logout">Sair</button>
     </nav>
   </header>
 
   <div class="content-grid">
-    <!-- Formulário -->
     <div class="card form-card">
       <h3>Novo Agendamento</h3>
-      
+
       <div *ngIf="mensagemSucesso" class="alert success-alert">
         {{ mensagemSucesso }}
       </div>
@@ -27,15 +27,29 @@
           <label>Cliente</label>
           <select [(ngModel)]="agendamentoAtual.cliente.id" name="clienteId" required>
             <option [ngValue]="null">Selecione o Cliente</option>
-            <option *ngFor="let c of clientes" [value]="c.id">{{ c.nome }} ({{ c.documento }})</option>
+            <option *ngFor="let c of clientes" [value]="c.id">
+              {{ c.nome }} ({{ c.documento }})
+            </option>
           </select>
         </div>
 
         <div class="input-group">
-          <label>Profissional / Recurso</label>
-          <select [(ngModel)]="agendamentoAtual.recurso.id" name="recursoId" required>
+          <label>Profissional (Tatuador / Piercer)</label>
+          <select [(ngModel)]="agendamentoAtual.recursoId" name="recursoId" required>
             <option [ngValue]="null">Selecione o Profissional</option>
-            <option *ngFor="let r of recursos" [value]="r.id">{{ r.nome }} - {{ r.tipo }}</option>
+            <option *ngFor="let p of profissionais" [value]="p.id">
+              {{ p.nome }} - {{ p.tipo }}
+            </option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Maca / Estação de Trabalho (Opcional)</label>
+          <select [(ngModel)]="agendamentoAtual.macaId" name="macaId">
+            <option [ngValue]="null">Nenhuma / Não vincular maca</option>
+            <option *ngFor="let m of macas" [value]="m.id">
+              {{ m.nome }} - {{ m.tipo }}
+            </option>
           </select>
         </div>
 
@@ -51,14 +65,17 @@
 
         <div class="input-group">
           <label>Observação / Serviço</label>
-          <input type="text" [(ngModel)]="agendamentoAtual.observacao" name="observacao" placeholder="Ex: Tatuagem Realismo Braço">
+          <input 
+            type="text" 
+            [(ngModel)]="agendamentoAtual.observacao" 
+            name="observacao" 
+            placeholder="Ex: Tatuagem Realismo Braço">
         </div>
 
         <button type="submit" class="btn-primary">Confirmar Horário</button>
       </form>
     </div>
 
-    <!-- Tabela -->
     <div class="card list-card">
       <h3>Agendamentos Confirmados</h3>
       <table class="data-table">
@@ -66,7 +83,7 @@
           <tr>
             <th>Data / Hora</th>
             <th>Cliente</th>
-            <th>Recurso</th>
+            <th>Recurso / Espaço</th>
             <th>Serviço</th>
           </tr>
         </thead>
@@ -74,7 +91,9 @@
           <tr *ngFor="let a of agendamentos">
             <td><strong>{{ a.data | date:'dd/MM/yyyy' }}</strong> às {{ a.hora }}</td>
             <td>{{ a.cliente?.nome }}</td>
-            <td><span class="badge">{{ a.recurso?.nome }}</span></td>
+            <td>
+              <span class="badge">{{ a.recurso?.nome }}</span>
+            </td>
             <td>{{ a.observacao }}</td>
           </tr>
           <tr *ngIf="agendamentos.length === 0">

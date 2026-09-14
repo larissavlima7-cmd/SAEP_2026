@@ -1,34 +1,71 @@
 <div class="dashboard-container">
   <header class="dash-header">
-    <h2>Gestão de Clientes</h2>
+    <div class="header-titles">
+      <h2>Gestão de Clientes</h2>
+      <p>Cadastre e gerencie a base de clientes do estúdio</p>
+    </div>
+    <nav class="nav-links">
+      <a routerLink="/agendamentos" routerLinkActive="active">Agendamentos</a>
+      <a routerLink="/clientes" routerLinkActive="active">Clientes</a>
+      <button (click)="logout()" class="btn-logout">Sair</button>
+    </nav>
   </header>
 
   <div class="content-grid">
-    <!-- Formulário de Cadastro -->
     <div class="card form-card">
       <h3>{{ clienteAtual.id ? 'Editar Cliente' : 'Novo Cliente' }}</h3>
+
       <form (ngSubmit)="salvarCliente()">
         <div class="input-group">
           <label>Nome Completo</label>
-          <input type="text" [(ngModel)]="clienteAtual.nome" name="nome" required>
+          <input 
+            type="text" 
+            [(ngModel)]="clienteAtual.nome" 
+            name="nome" 
+            placeholder="Ex: Ana Souza" 
+            required>
         </div>
+
         <div class="input-group">
-          <label>Documento (CPF/RG)</label>
-          <input type="text" [(ngModel)]="clienteAtual.documento" name="documento" required>
+          <label>Documento (CPF / RG)</label>
+          <input 
+            type="text" 
+            [(ngModel)]="clienteAtual.documento" 
+            name="documento" 
+            placeholder="000.000.000-00" 
+            required>
         </div>
+
         <div class="input-group">
           <label>Telefone</label>
-          <input type="text" [(ngModel)]="clienteAtual.telefone" name="telefone" required>
+          <input 
+            type="text" 
+            [(ngModel)]="clienteAtual.telefone" 
+            name="telefone" 
+            placeholder="(11) 99999-9999" 
+            required>
         </div>
-        <button type="submit" class="btn-primary">Salvar Cliente</button>
-        <button type="button" *ngIf="clienteAtual.id" (click)="clienteAtual = {}" class="btn-secondary">Cancelar</button>
+
+        <button type="submit" class="btn-primary">
+          {{ clienteAtual.id ? 'Atualizar Cliente' : 'Cadastrar Cliente' }}
+        </button>
+        <button 
+          type="button" 
+          *ngIf="clienteAtual.id" 
+          (click)="limparFormulario()" 
+          class="btn-secondary">
+          Cancelar Edição
+        </button>
       </form>
     </div>
 
-    <!-- Lista e Busca -->
     <div class="card list-card">
       <div class="search-bar">
-        <input type="text" [(ngModel)]="termoBusca" placeholder="Buscar por nome ou documento..." (keyup)="carregarClientes()">
+        <input 
+          type="text" 
+          [(ngModel)]="termoBusca" 
+          placeholder="Buscar por nome ou documento..." 
+          (keyup)="carregarClientes()">
       </div>
 
       <table class="data-table">
@@ -41,17 +78,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cliente of clientes">
-            <td>{{ cliente.nome }}</td>
-            <td>{{ cliente.documento }}</td>
-            <td>{{ cliente.telefone }}</td>
+          <tr *ngFor="let c of clientes">
+            <td><strong>{{ c.nome }}</strong></td>
+            <td>{{ c.documento }}</td>
+            <td>{{ c.telefone }}</td>
             <td class="actions">
-              <button (click)="editarCliente(cliente)" class="btn-icon edit">Editar</button>
-              <button (click)="excluirCliente(cliente.id)" class="btn-icon delete">Excluir</button>
+              <button (click)="editarCliente(c)" class="btn-icon edit">Editar</button>
+              <button (click)="excluirCliente(c.id)" class="btn-icon delete">Excluir</button>
             </td>
           </tr>
           <tr *ngIf="clientes.length === 0">
-            <td colspan="4" style="text-align: center;">Nenhum cliente encontrado.</td>
+            <td colspan="4" style="text-align: center;">Nenhum cliente cadastrado.</td>
           </tr>
         </tbody>
       </table>

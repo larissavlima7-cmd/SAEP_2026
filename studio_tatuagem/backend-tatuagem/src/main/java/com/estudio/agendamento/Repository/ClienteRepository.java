@@ -1,7 +1,9 @@
-package com.estudio.agendamento.repository;
+package com.estudio.agendamento.Repository;
 
-import com.estudio.agendamento.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.estudio.agendamento.Model.Cliente;
+
 import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {

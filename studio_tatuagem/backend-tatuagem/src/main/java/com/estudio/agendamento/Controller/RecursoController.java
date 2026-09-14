@@ -1,9 +1,9 @@
-package com.estudio.agendamento.controller;
-
-import com.estudio.agendamento.model.Recurso;
-import com.estudio.agendamento.repository.RecursoRepository;
+package com.estudio.agendamento.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.estudio.agendamento.Model.Recurso;
+import com.estudio.agendamento.Repository.RecursoRepository;
 
 import java.util.List;
 

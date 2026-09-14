@@ -1,8 +1,9 @@
-package com.estudio.agendamento.model;
+package com.estudio.agendamento.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Agendamento {
@@ -69,5 +70,20 @@ public class Agendamento {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public List<Agendamento> findAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    public boolean existsByRecursoIdAndDataAndHora(Long id2, LocalDate data2, LocalTime hora2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'existsByRecursoIdAndDataAndHora'");
+    }
+
+    public Agendamento save(Agendamento agendamento) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
     }
 }

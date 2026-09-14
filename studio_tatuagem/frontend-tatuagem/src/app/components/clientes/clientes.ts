@@ -1,21 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { ClienteService } from '../../services/cliente';
 
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './clientes.html',
-  styleUrl: './clientes.css' 
+  styleUrl: './clientes.css'
 })
 export class ClientesComponent implements OnInit {
   clientes: any[] = [];
   clienteAtual: any = { nome: '', documento: '', telefone: '' };
   termoBusca: string = '';
 
-  constructor(private clienteService: ClienteService) {}
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.carregarClientes();
@@ -23,8 +27,8 @@ export class ClientesComponent implements OnInit {
 
   carregarClientes() {
     this.clienteService.listar(this.termoBusca).subscribe({
-      next: (dados) => this.clientes = dados,
-      error: (err) => console.error('Erro ao carregar', err)
+      next: (dados) => (this.clientes = dados),
+      error: (err) => console.error('Erro ao carregar clientes', err)
     });
   }
 
@@ -32,13 +36,13 @@ export class ClientesComponent implements OnInit {
     this.clienteService.salvar(this.clienteAtual).subscribe({
       next: () => {
         this.carregarClientes();
-        this.clienteAtual = { nome: '', documento: '', telefone: '' }; // Limpa o formulário
+        this.limparFormulario();
       }
     });
   }
 
   editarCliente(cliente: any) {
-    this.clienteAtual = { ...cliente }; // Copia os dados para o formulário
+    this.clienteAtual = { ...cliente };
   }
 
   excluirCliente(id: number) {
@@ -47,5 +51,14 @@ export class ClientesComponent implements OnInit {
         next: () => this.carregarClientes()
       });
     }
+  }
+
+  limparFormulario() {
+    this.clienteAtual = { nome: '', documento: '', telefone: '' };
+  }
+
+  logout() {
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
   }
 }

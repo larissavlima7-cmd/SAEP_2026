@@ -1,11 +1,11 @@
-package com.estudio.agendamento.controller;
-
-import com.estudio.agendamento.model.Usuario;
-import com.estudio.agendamento.repository.UsuarioRepository;
+package com.estudio.agendamento.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.estudio.agendamento.Model.Usuario;
+import com.estudio.agendamento.Repository.UsuarioRepository;
 
 import java.util.Optional;
 

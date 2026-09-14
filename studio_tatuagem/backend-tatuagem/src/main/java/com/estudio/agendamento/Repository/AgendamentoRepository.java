@@ -1,7 +1,8 @@
-package com.estudio.agendamento.repository;
-
-import com.estudio.agendamento.model.Agendamento;
+package com.estudio.agendamento.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.estudio.agendamento.Model.Agendamento;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 

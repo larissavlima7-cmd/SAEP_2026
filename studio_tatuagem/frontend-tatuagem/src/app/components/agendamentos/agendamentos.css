@@ -23,10 +23,12 @@
 .dash-header p {
   color: #71717a;
   font-size: 0.85rem;
+  margin-top: 4px;
 }
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 15px;
 }
 
@@ -44,6 +46,23 @@
   color: #ff0055;
 }
 
+.btn-logout {
+  background: transparent;
+  border: 1px solid rgba(255, 0, 85, 0.4);
+  color: #ff4d8d;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 0, 85, 0.2);
+  color: #ffffff;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: 380px 1fr;
@@ -54,6 +73,7 @@
 .card {
   background: rgba(15, 15, 20, 0.75);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 24px;
@@ -77,6 +97,7 @@
   color: #a1a1aa;
   margin-bottom: 6px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .input-group input, .input-group select {
@@ -87,11 +108,13 @@
   border-radius: 6px;
   color: #ffffff;
   font-family: 'Outfit', sans-serif;
+  transition: all 0.3s ease;
 }
 
 .input-group input:focus, .input-group select:focus {
   outline: none;
   border-color: #ff0055;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
 }
 
 .btn-primary {
@@ -105,9 +128,11 @@
   font-weight: 700;
   cursor: pointer;
   margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
+  background: linear-gradient(135deg, #ff1a66 0%, #e6004c 100%);
   box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
 }
 
@@ -140,13 +165,20 @@
   padding: 12px;
   color: #a1a1aa;
   font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .data-table td {
   padding: 14px 12px;
   color: #e4e4e7;
+  font-size: 0.95rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .badge {
@@ -155,4 +187,10 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
 }

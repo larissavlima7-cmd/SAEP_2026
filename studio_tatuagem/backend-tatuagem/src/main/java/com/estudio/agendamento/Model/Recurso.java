@@ -1,4 +1,4 @@
-package com.estudio.agendamento.model;
+package com.estudio.agendamento.Model;
 
 import jakarta.persistence.*;
 
