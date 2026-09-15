@@ -18,6 +18,8 @@ export class AgendamentosComponent implements OnInit {
   clientes: any[] = [];
   recursos: any[] = [];
 
+  dataMinima: string = new Date().toISOString().split('T')[0];
+
   agendamentoAtual: any = {
     cliente: { id: null },
     recursoId: null,
@@ -87,6 +89,11 @@ export class AgendamentosComponent implements OnInit {
       return;
     }
 
+    if (this.agendamentoAtual.data < this.dataMinima) {
+      this.mensagemErro = 'Não é possível realizar agendamentos para datas retroativas!';
+      return;
+    }
+
     const agendamentoProfissional = {
       cliente: { id: this.agendamentoAtual.cliente.id },
       recurso: { id: this.agendamentoAtual.recursoId },
@@ -131,12 +138,37 @@ export class AgendamentosComponent implements OnInit {
             typeof err.error === 'string'
               ? err.error
               : 'Este profissional já possui agendamento neste horário!';
+        } else if (err.status === 400) {
+          this.mensagemErro = err.error || 'Data inválida para agendamento.';
         } else {
           this.mensagemErro = 'Erro ao processar o agendamento.';
         }
       }
     });
   }
+
+  excluirAgendamento(id: number) {
+  if (!id) {
+    this.mensagemErro = 'ID do agendamento inválido!';
+    return;
+  }
+
+  if (confirm('Deseja realmente excluir este agendamento?')) {
+    this.mensagemErro = '';
+    this.mensagemSucesso = '';
+
+    this.agendamentoService.excluir(id).subscribe({
+      next: () => {
+        this.mensagemSucesso = 'Agendamento excluído com sucesso!';
+        this.carregarAgendamentos();
+      },
+      error: (err) => {
+        console.error('Erro na exclusão:', err);
+        this.mensagemErro = 'Erro ao excluir o agendamento.';
+      }
+    });
+  }
+}
 
   private finalizarSucesso(msg: string) {
     this.mensagemSucesso = msg;

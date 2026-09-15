@@ -1,8 +1,10 @@
 <div class="dashboard-container">
   <header class="dash-header">
     <div class="header-titles">
-      <h2>Painel de Agendamentos</h2>
-      <p>Gerencie horários, tatuadores, piercers e macas</p>
+      <div>
+        <h2>Painel de Agendamentos</h2>
+        <p>Gerencie horários, tatuadores, piercers e macas</p>
+      </div>
     </div>
     <nav class="nav-links">
       <a routerLink="/agendamentos" routerLinkActive="active">Agendamentos</a>
@@ -55,7 +57,7 @@
 
         <div class="input-group">
           <label>Data</label>
-          <input type="date" [(ngModel)]="agendamentoAtual.data" name="data" required>
+          <input type="date" [min]="dataMinima" [(ngModel)]="agendamentoAtual.data" name="data" required>
         </div>
 
         <div class="input-group">
@@ -78,6 +80,7 @@
 
     <div class="card list-card">
       <h3>Agendamentos Confirmados</h3>
+
       <table class="data-table">
         <thead>
           <tr>
@@ -85,22 +88,46 @@
             <th>Cliente</th>
             <th>Recurso / Espaço</th>
             <th>Serviço</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let a of agendamentos">
-            <td><strong>{{ a.data | date:'dd/MM/yyyy' }}</strong> às {{ a.hora }}</td>
+            <td><strong>{{ a.data | date:'dd/MM/yyyy':'UTC' }}</strong> às {{ a.hora }}</td>
             <td>{{ a.cliente?.nome }}</td>
             <td>
               <span class="badge">{{ a.recurso?.nome }}</span>
             </td>
             <td>{{ a.observacao }}</td>
+            <td>
+              <button class="btn-delete" (click)="excluirAgendamento(a.id)">Excluir</button>
+            </td>
           </tr>
           <tr *ngIf="agendamentos.length === 0">
-            <td colspan="4" style="text-align: center;">Nenhum agendamento cadastrado.</td>
+            <td colspan="5" style="text-align: center;">Nenhum agendamento cadastrado.</td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="card gallery-card">
+      <h3>Galeria de Trabalhos</h3>
+      <p class="gallery-subtitle">Últimas tatuagens produzidas no estúdio</p>
+      
+      <div class="tattoo-grid">
+        <div class="tattoo-item">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu9wtlRnBT7Y0MybIl38NzbqVIhnKTefv21hA4Z_PdBw&s=10" alt="Tatuagem Pet">
+        </div>
+        <div class="tattoo-item">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS195jaHon_R374EgkuS8sLXd3Qs8NFup9znplWJwkIEA&s=10" alt="Tatuagem Fineline Mão">
+        </div>
+        <div class="tattoo-item">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzWOndC3GWrNvCNjRiATJk0vX3wPbrTHvW-njW7LnSqw&s=10" alt="Tatuagem Leopardo">
+        </div>
+        <div class="tattoo-item">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqwhoKVeB4Tg35KoDaNn56WOKlDfe__bobs9q6sFmoaw&s=10" alt="Tatuagem Realista Bússola e Moto">
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -19,6 +19,8 @@ public class Agendamento {
     @JoinColumn(name = "id_recurso")
     private Recurso recurso;
 
+
+  
     private LocalDate data;
     private LocalTime hora;
     private String observacao;
@@ -72,16 +74,17 @@ public class Agendamento {
         this.observacao = observacao;
     }
 
+    
     public List<Agendamento> findAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
-
+    
     public boolean existsByRecursoIdAndDataAndHora(Long id2, LocalDate data2, LocalTime hora2) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'existsByRecursoIdAndDataAndHora'");
     }
-
+    
     public Agendamento save(Agendamento agendamento) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'save'");
