@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Agendamento {
-    @Id
+    @Id//chave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,7 +20,7 @@ public class Agendamento {
     private Recurso recurso;
 
 
-  
+  //informações do agendamento
     private LocalDate data;
     private LocalTime hora;
     private String observacao;
@@ -74,7 +74,7 @@ public class Agendamento {
         this.observacao = observacao;
     }
 
-    
+    //metodos extras, para evitar erros!
     public List<Agendamento> findAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");

@@ -2,12 +2,12 @@ package com.estudio.agendamento.Model;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity//define a classe como entidade
 public class Recurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    //informações sobre o recurso
     private String nome;
     private String tipo;
 

@@ -19,12 +19,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        //busca o usuário no banco pelo email
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(usuario.getEmail());
 
+        //vai conferir se o usuario e a senha existem no bd
         if (usuarioOpt.isPresent() && usuarioOpt.get().getSenha().equals(usuario.getSenha())) {
             return ResponseEntity.ok(usuarioOpt.get());
         }
 
+        //se a senha ou email forem incorretos mostra o erro
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
     }
 }
