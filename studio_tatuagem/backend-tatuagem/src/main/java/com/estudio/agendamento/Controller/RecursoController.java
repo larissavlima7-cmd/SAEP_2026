@@ -14,7 +14,7 @@ public class RecursoController {
 
     @Autowired
     private RecursoRepository recursoRepository;
-
+//para mostarr todos os recursos cadastrados
     @GetMapping
     public List<Recurso> listar() {
         return recursoRepository.findAll();

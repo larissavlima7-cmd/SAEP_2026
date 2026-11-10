@@ -2,12 +2,12 @@ package com.estudio.agendamento.Model;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity//deixa a classe como entidade
 public class Usuario {
-    @Id
+    @Id //chave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    //informações dos usuarios
     private String nome;
     private String email;
     private String senha;

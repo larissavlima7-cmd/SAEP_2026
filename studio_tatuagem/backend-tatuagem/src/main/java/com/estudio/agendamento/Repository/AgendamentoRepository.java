@@ -1,14 +1,14 @@
 package com.estudio.agendamento.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.estudio.agendamento.Model.Agendamento;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-@Repository
+//interface de acesso com o CRUD
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 
-    boolean existsByRecursoIdAndDataAndHora(Long recursoId, LocalDate data, Object hora);
+// verifica se tem um agendamento com o mesmo recurso para a mesma data e horário
+    boolean existsByRecursoIdAndDataAndHora(Long recursoId, LocalDate data, LocalTime hora);
 }
